@@ -10,10 +10,15 @@ public class Ball : MonoBehaviour
     [SerializeField] Paddle paddle1;
     [SerializeField] float xPush = 2f;
     [SerializeField] float yPush = 15f;
+    [SerializeField] AudioClip[] ballSounds;
 
     //State
     Vector2 paddleToBallVector;
     bool hasStarted = false;
+
+    //Cached component references
+    AudioSource myAudioSource;
+    
 
 
     // Start is called before the first frame update
@@ -21,6 +26,8 @@ public class Ball : MonoBehaviour
     {
         //Calculamos la diferencia entre los vectores ( ball y paddle)
         paddleToBallVector = transform.position - paddle1.transform.position; // si no aclaro nada transform se refiere al Gameobject del script. En este caso Ball
+
+        myAudioSource = GetComponent<AudioSource>(); //para acceder a un componente usamos esta sintaxis
     }
 
     // Update is called once per frame
@@ -57,8 +64,9 @@ public class Ball : MonoBehaviour
     {
         if (hasStarted)
         {
-            //para acceder a un componente usamos la siguiente sintaxis
-            GetComponent<AudioSource>().Play();
+            //hacemos random el sonido y lo almacenamos en clip
+            AudioClip clip = ballSounds[UnityEngine.Random.Range(0, ballSounds.Length)];
+            myAudioSource.PlayOneShot(clip); // play one shot no se detiene cuando suena otro clip y se le pasa como param el clip
         }
         
     }
