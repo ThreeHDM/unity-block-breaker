@@ -7,6 +7,17 @@ public class Block : MonoBehaviour
 
     [SerializeField] AudioClip breakSound;
 
+    //Chached reference
+    Level level;
+
+    private void Start()
+    {
+        //FindObjectOfType looks for the class we pass inside the angle brackets.
+        level = FindObjectOfType<Level>();
+
+        level.CountBreakableBlocks();
+    }
+
     //Creo el método que se dispara cuando hay una colisión. Lo dispara el Engine
     public void OnCollisionEnter2D(Collision2D collision)
     {
