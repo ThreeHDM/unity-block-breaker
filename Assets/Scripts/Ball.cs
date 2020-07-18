@@ -7,10 +7,10 @@ public class Ball : MonoBehaviour
 {
 
     //Configuration fields
-    [SerializeField] Paddle paddle1;
+    [SerializeField] Paddle paddle1 = default; //Se agrega esta palabra reservada 'default' para solucionar warning Warning CS0649: Field 'Ball.paddle1' is never assigned to, and will always have its default value null (CS0649)
     [SerializeField] float xPush = 2f;
     [SerializeField] float yPush = 15f;
-    [SerializeField] AudioClip[] ballSounds;
+    [SerializeField] AudioClip[] ballSounds = default;
 
     //State
     Vector2 paddleToBallVector;

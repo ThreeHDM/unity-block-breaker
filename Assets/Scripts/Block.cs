@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-
-    [SerializeField] AudioClip breakSound;
+    
+    [SerializeField] AudioClip breakSound = default;
 
     //Chached reference
     Level level;
@@ -15,17 +15,23 @@ public class Block : MonoBehaviour
         //FindObjectOfType looks for the class we pass inside the angle brackets.
         level = FindObjectOfType<Level>();
 
+        
+
         level.CountBreakableBlocks();
     }
 
     //Creo el método que se dispara cuando hay una colisión. Lo dispara el Engine
     public void OnCollisionEnter2D(Collision2D collision)
     {
+        
         DestroyBlock();
     }
 
     private void DestroyBlock()
     {
+        //Traemos el objeto GameStatus (instanciamos) y llamamos al método
+        FindObjectOfType<GameStatus>().AddToScore();
+
         //Previo a destruir el objeto reproducimos el sonido de destrucción. Como primer param pasamos el clip, como segundo la position como vector. En este caso accedemos a la position de la camara para que todos los sonidos suenen en la camara. Si lo hicieramos en el objeto sonarían algunos lejos otros cerca.
         AudioSource.PlayClipAtPoint(breakSound, Camera.main.transform.position);
 
