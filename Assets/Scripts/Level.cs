@@ -17,7 +17,7 @@ public class Level : MonoBehaviour
     }
 
     //We create a public method to count the breakable blocks. Each time is called we add 1 to the total number of breakable blocks
-    public void CountBreakableBlocks()
+    public void CountBlocks()
     {
         breakableBlocks++;
     }

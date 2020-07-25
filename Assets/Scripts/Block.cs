@@ -16,19 +16,28 @@ public class Block : MonoBehaviour
 
     private void Start()
     {
+        CountBreakableBlocks();
+
+    }
+
+    private void CountBreakableBlocks()
+    {
         //FindObjectOfType looks for the class we pass inside the angle brackets.
         level = FindObjectOfType<Level>();
 
-        
-
-        level.CountBreakableBlocks();
+        if (tag == "Breakable")
+        {
+            level.CountBlocks();
+        }
     }
 
     //Creo el método que se dispara cuando hay una colisión. Lo dispara el Engine
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        
-        DestroyBlock();
+        if(tag == "Breakable")
+        {
+            DestroyBlock();
+        }
     }
 
     private void DestroyBlock()
