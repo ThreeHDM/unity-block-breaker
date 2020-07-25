@@ -16,6 +16,22 @@ public class GameStatus : MonoBehaviour
     //State variables
     [SerializeField] int currentScore = 0; // inicializamos el score en 0
 
+    //El métdo Awake es el primero que se ejecuta. En este caso lo utilizamos para saber si ya existe un objeto gameStatus que venga de otra Scene. Si es así destruímos el objeto en el que estamos, sino lo conservamos.
+    private void Awake()
+    {
+        int gameStatusCount = FindObjectsOfType<GameStatus>().Length;
+
+        if(gameStatusCount > 1)
+        {
+            Destroy(gameObject);
+        } 
+        else
+        {
+            //Conserva el objeto a pesar de que se cargue otra escena (al hacer load).
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
     private void Start()
     {
         scoreText.text = currentScore.ToString();
