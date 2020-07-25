@@ -4,7 +4,7 @@ using UnityEngine;
 //Llamamos a TMPro
 using TMPro;
 
-public class GameStatus : MonoBehaviour
+public class GameSession : MonoBehaviour
 {
     //Configuration parameters -----------------------------
     //Creo un campo en la UI de Unity con un valor predeterminado para la velocidad del juego. Además le agrego [Range] lo que transforma a la UI en un slider entre el min y el max
@@ -19,7 +19,7 @@ public class GameStatus : MonoBehaviour
     //El métdo Awake es el primero que se ejecuta. En este caso lo utilizamos para saber si ya existe un objeto gameStatus que venga de otra Scene. Si es así destruímos el objeto en el que estamos, sino lo conservamos.
     private void Awake()
     {
-        int gameStatusCount = FindObjectsOfType<GameStatus>().Length;
+        int gameStatusCount = FindObjectsOfType<GameSession>().Length;
 
         if(gameStatusCount > 1)
         {
@@ -49,5 +49,10 @@ public class GameStatus : MonoBehaviour
     {
         currentScore += pointsPerBlockDestroyed;
         scoreText.text = currentScore.ToString();
+    }
+
+    public void ResetGame()
+    {
+        Destroy(gameObject);
     }
 }

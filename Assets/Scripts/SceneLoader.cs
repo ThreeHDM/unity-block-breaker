@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
+    
     public void LoadNextScene()
     {
         //declaramos una variable que trainga el índice actual de la escena usando SceneManager class
@@ -18,6 +19,7 @@ public class SceneLoader : MonoBehaviour
     public void LoadStartScene()
     {
         SceneManager.LoadScene(0);
+        FindObjectOfType<GameSession>().ResetGame();
     }
 
     public void QuitGame()
