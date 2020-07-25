@@ -23,6 +23,8 @@ public class GameStatus : MonoBehaviour
 
         if(gameStatusCount > 1)
         {
+            //Bugfix de singleton
+            gameObject.SetActive(false);
             Destroy(gameObject);
         } 
         else
