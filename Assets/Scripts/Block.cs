@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Block : MonoBehaviour
 {
+
     
     [SerializeField] AudioClip breakSound = default;
+
+    [SerializeField] GameObject blockSparklesVFX;
 
     //Chached reference
     Level level;
@@ -29,15 +33,33 @@ public class Block : MonoBehaviour
 
     private void DestroyBlock()
     {
-        //Traemos el objeto GameStatus (instanciamos) y llamamos al método
-        FindObjectOfType<GameSession>().AddToScore();
-
-        //Previo a destruir el objeto reproducimos el sonido de destrucción. Como primer param pasamos el clip, como segundo la position como vector. En este caso accedemos a la position de la camara para que todos los sonidos suenen en la camara. Si lo hicieramos en el objeto sonarían algunos lejos otros cerca.
-        AudioSource.PlayClipAtPoint(breakSound, Camera.main.transform.position);
+        PlayBlockDestroyedSFX();
 
         //Destruimos el game object. Podríamos destruir un asset o un component también. El segundo parametro es el tiempo (se le pasa un float)
         Destroy(gameObject);
 
         level.BlockDestroyed();
+
+        //Llamamos al método que ejecuta el efecto visual
+        TriggerSparklesVFX();
+    }
+
+    private void PlayBlockDestroyedSFX()
+    {
+        //Traemos el objeto GameStatus (instanciamos) y llamamos al método
+        FindObjectOfType<GameSession>().AddToScore();
+
+        //Previo a destruir el objeto reproducimos el sonido de destrucción. Como primer param pasamos el clip, como segundo la position como vector. En este caso accedemos a la position de la camara para que todos los sonidos suenen en la camara. Si lo hicieramos en el objeto sonarían algunos lejos otros cerca.
+        AudioSource.PlayClipAtPoint(breakSound, Camera.main.transform.position);
+    }
+
+    private void TriggerSparklesVFX()
+    {
+        //Instanciar un objecto con instanciate. Esto ocurre al ejecutar el juego.
+        //una de las opciones es pasar la position del objeto y otra la rotación. Hay más opciones Ver docs de Unity
+        GameObject sparkles = Instantiate(blockSparklesVFX, transform.position, transform.rotation);
+
+        //Destruimos el objeto VFX - el segundo param es tiempo se pasa como float. Los float lleva una f en C#
+        Destroy(sparkles, 1f);
     }
 }
