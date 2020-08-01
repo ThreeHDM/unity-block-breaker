@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class Block : MonoBehaviour
     [SerializeField] AudioClip breakSound = default;
     [SerializeField] GameObject blockSparklesVFX;
     [SerializeField] int maxHits;
+    [SerializeField] Sprite[] hitSprites; //creamos un array para los sprites
 
     //Chached reference
     Level level;
@@ -51,6 +53,16 @@ public class Block : MonoBehaviour
         {
             DestroyBlock();
         }
+        else
+        {
+            ShowNextHitSprite();
+        }
+    }
+
+    private void ShowNextHitSprite()
+    {
+        int spriteIndex = timesHit - 1;
+        GetComponent<SpriteRenderer>().sprite = hitSprites[spriteIndex]; //llamamos al componente getcomponent del block
     }
 
     private void DestroyBlock()
