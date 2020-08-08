@@ -12,6 +12,7 @@ public class GameSession : MonoBehaviour
     [SerializeField] int pointsPerBlockDestroyed = 83;
     //Creamos un campo serializado para scoreText usando TextMeshProUGUI. En ese campo vinculamos el ScoreText GameObject
     [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] bool isAutoPlayEnabled;
 
     //State variables
     [SerializeField] int currentScore = 0; // inicializamos el score en 0
@@ -54,5 +55,10 @@ public class GameSession : MonoBehaviour
     public void ResetGame()
     {
         Destroy(gameObject);
+    }
+
+    public bool IsAutoPlayEnabled()
+    {
+        return isAutoPlayEnabled;
     }
 }
