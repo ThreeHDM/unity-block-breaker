@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
@@ -11,6 +8,7 @@ public class Ball : MonoBehaviour
     [SerializeField] float xPush = 2f;
     [SerializeField] float yPush = 15f;
     [SerializeField] AudioClip[] ballSounds = default;
+    [SerializeField] float randmoFactor = 0.2f;
 
     //State
     Vector2 paddleToBallVector;
@@ -18,6 +16,7 @@ public class Ball : MonoBehaviour
 
     //Cached component references
     AudioSource myAudioSource;
+    Rigidbody2D myRigidBody2D;
     
 
 
@@ -28,6 +27,7 @@ public class Ball : MonoBehaviour
         paddleToBallVector = transform.position - paddle1.transform.position; // si no aclaro nada transform se refiere al Gameobject del script. En este caso Ball
 
         myAudioSource = GetComponent<AudioSource>(); //para acceder a un componente usamos esta sintaxis
+        myRigidBody2D = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -47,8 +47,12 @@ public class Ball : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             hasStarted = true;
+
+            //Reemplazamos la sintaxis anterior (la dejo comentada) ya que ahora traemos el componente RigidBody2D
+            myRigidBody2D.velocity = new Vector2(xPush, yPush);
+
             //Excepto para el componente transform, debemos usar GetComponent para manipular otros componentes. Como por ej, rigidbody
-            GetComponent<Rigidbody2D>().velocity = new Vector2(xPush, yPush);
+            //GetComponent<Rigidbody2D>().velocity = new Vector2(xPush, yPush);
         }
     }
 
@@ -62,11 +66,18 @@ public class Ball : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
+        Vector2 velocityTweak = new Vector2
+            (
+                Random.Range(0f, randmoFactor),
+                Random.Range(0f, randmoFactor)
+            );
+
         if (hasStarted)
         {
             //hacemos random el sonido y lo almacenamos en clip
             AudioClip clip = ballSounds[UnityEngine.Random.Range(0, ballSounds.Length)];
             myAudioSource.PlayOneShot(clip); // play one shot no se detiene cuando suena otro clip y se le pasa como param el clip
+            myRigidBody2D.velocity += velocityTweak;
         }
         
     }
