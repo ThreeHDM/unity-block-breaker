@@ -36,9 +36,9 @@ public class Ball : MonoBehaviour
         if (!hasStarted)
         {
             LockBallToPaddle();
+            LaunchOnMouseClick();
         }
         
-        LaunchOnMouseClick();
 
     }
 
